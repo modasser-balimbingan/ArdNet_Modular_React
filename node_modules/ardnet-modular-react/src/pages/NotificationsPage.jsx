@@ -2,7 +2,7 @@ import Card from '../components/common/Card';
 import { useApp } from '../context/AppContext';
 
 export default function NotificationsPage() {
-  const { notifications } = useApp();
+  const { notifications, markAllNotificationsRead } = useApp();
   return (
     <div className="page">
       <div className="page-heading">
@@ -11,7 +11,7 @@ export default function NotificationsPage() {
           <h1>Notifications</h1>
           <p className="muted">Price alerts, system messages, and other activity.</p>
         </div>
-        <button className="btn btn-outline" type="button">Mark all as read</button>
+        <button className="btn btn-outline" type="button" onClick={markAllNotificationsRead}>Mark all as read</button>
       </div>
 
       <Card style={{ padding: 0 }}>

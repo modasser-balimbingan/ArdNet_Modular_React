@@ -71,6 +71,14 @@ export function AppProvider({ children }) {
     setStorage('ardnet.notifications', [notification, ...notifications]);
   }, [alerts, notifications]);
 
+  const markAllNotificationsRead = useCallback(() => {
+    const nextNotifications = notifications.map((notification) => (
+      notification.status === 'Read' ? notification : { ...notification, status: 'Read' }
+    ));
+    setNotifications(nextNotifications);
+    setStorage('ardnet.notifications', nextNotifications);
+  }, [notifications]);
+
   const value = useMemo(() => ({
     toast,
     notify,
@@ -81,7 +89,19 @@ export function AppProvider({ children }) {
     alerts,
     notifications,
     createPriceAlert,
-  }), [toast, notify, supportRequests, submitSupportRequest, updateSupportRequest, replyToSupportRequest]);
+    markAllNotificationsRead,
+  }), [
+    toast,
+    notify,
+    supportRequests,
+    submitSupportRequest,
+    updateSupportRequest,
+    replyToSupportRequest,
+    alerts,
+    notifications,
+    createPriceAlert,
+    markAllNotificationsRead,
+  ]);
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;
 }
