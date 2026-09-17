@@ -34,7 +34,7 @@ export default function HomePage() {
                 <i key={index} className="bar" style={{ height: `${height}%` }} />
               ))}
             </div>
-            <p className="chart-label">Sample data for the prototype interface. Backend source and retrieval date will be displayed here.</p>
+            <p className="chart-label">Sample data for the prototype interface.</p>
           </Card>
         </div>
       </section>
