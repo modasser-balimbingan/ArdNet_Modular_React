@@ -427,7 +427,7 @@ button,
 input,
 select,
 textarea {
-  line-height: 1.25;
+  line-height: 6px;
 }
 
 .btn {
@@ -456,7 +456,7 @@ textarea {
 .form-group > input,
 .form-group > select,
 .form-group > textarea {
-  margin-top: 1px;
+  margin-top: 6px;
 }
 
 .form-actions,
@@ -483,7 +483,7 @@ textarea {
 .hero-actions,
 .form-actions,
 .listing-actions {
-  gap: 12px;
+  gap: 24px;
 }
 
 .nav-actions .btn,
@@ -494,6 +494,40 @@ textarea {
 
 .btn-primary {
   min-width: 144px;
+}
+
+.login-submit {
+  width: 100%;
+  margin-top: 6px;
+}
+
+.register-card {
+  padding: 32px;
+}
+
+.register-card h1 {
+  margin-bottom: 8px;
+}
+
+.auth-intro {
+  margin: 0 0 22px;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.register-fields {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.register-role {
+  margin-top: 16px;
+}
+
+.register-submit {
+  width: 100%;
+  margin-top: 22px;
 }
 
 .btn-danger {
@@ -510,6 +544,21 @@ textarea {
 
 .form-group textarea {
   min-height: 110px;
+}
+
+@media (max-width: 560px) {
+  .register-card {
+    padding: 24px;
+  }
+
+  .register-fields {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+
+  .register-role {
+    margin-top: 14px;
+  }
 }
 
 .notification-row,

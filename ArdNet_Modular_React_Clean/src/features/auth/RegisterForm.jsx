@@ -27,21 +27,24 @@ export default function RegisterForm() {
   };
 
   return (
-    <form className="auth-card card" onSubmit={submit}>
+    <form className="auth-card register-card card" onSubmit={submit}>
       <p className="eyebrow">CREATE ACCOUNT</p>
       <h1>Join ArdNet</h1>
+      <p className="auth-intro">Create your account to connect with local produce buyers and sellers.</p>
       {error && <div className="form-message error">{error}</div>}
-      <label className="form-group">Full name<input className="input" value={name} onChange={(e) => setName(e.target.value)} required /></label>
-      <label className="form-group">Email<input className="input" type="email" value={email} onChange={(e) => setEmail(e.target.value)} required /></label>
-      <label className="form-group">Contact number<input className="input" type="tel" value={contact} onChange={(e) => setContact(e.target.value)} required /></label>
-      <label className="form-group">Password<input className="input" type="password" value={password} onChange={(e) => setPassword(e.target.value)} minLength={8} required /></label>
-      <label className="form-group">Role
+      <div className="register-fields">
+        <label className="form-group">Full name<input className="input" value={name} onChange={(e) => setName(e.target.value)} required /></label>
+        <label className="form-group">Email<input className="input" type="email" value={email} onChange={(e) => setEmail(e.target.value)} required /></label>
+        <label className="form-group">Contact number<input className="input" type="tel" value={contact} onChange={(e) => setContact(e.target.value)} required /></label>
+        <label className="form-group">Password<input className="input" type="password" value={password} onChange={(e) => setPassword(e.target.value)} minLength={8} required /></label>
+      </div>
+      <label className="form-group register-role">Role
         <select className="select" value={role} onChange={(e) => setRole(e.target.value)}>
           <option value={ROLES.FARMER}>Farmer</option>
           <option value={ROLES.BUYER}>Buyer / Vendor</option>
         </select>
       </label>
-      <Button type="submit">Create Account</Button>
+      <Button className="register-submit" type="submit">Create Account</Button>
     </form>
   );
 }

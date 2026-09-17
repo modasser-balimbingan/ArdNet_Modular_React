@@ -62,7 +62,7 @@ export default function LoginForm({ admin = false }) {
       {error && <div className="form-message error">{error}</div>}
       {!guest && <><label className="form-group">Email<input className="input" type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder={admin ? 'admin@ardnet.ph' : 'farmer@example.com'} required /></label>
       <label className="form-group">Password<input className="input" type="password" value={password} onChange={(e) => setPassword(e.target.value)} required /></label></>}
-      <Button type="submit">{admin ? 'Open Admin Dashboard' : 'Sign in'}</Button>
+      <Button className="login-submit" type="submit">{admin ? 'Open Admin Dashboard' : 'Sign in'}</Button>
       {!admin && <button className="text-button" type="button" onClick={() => setGuest((value) => !value)}>{guest ? 'Use account login' : 'Continue as guest'}</button>}
       {admin && <p className="security-note">Prototype demo: <strong>{DEMO_ADMIN.email}</strong> / <strong>{DEMO_ADMIN.password}</strong></p>}
     </form>
