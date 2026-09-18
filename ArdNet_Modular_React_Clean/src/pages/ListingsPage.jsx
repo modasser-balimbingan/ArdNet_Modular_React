@@ -78,7 +78,7 @@ export default function ListingsPage() {
               key={listing.id}
               listing={listing}
               canManage={farmerOnly && user?.role === 'farmer' && user?.name === listing.farmer}
-              onEdit={(item) => { setEditing({ ...item, category: item.produce }); setShowForm(true); }}
+              onEdit={(item) => { setEditing({ ...item, category: item.category || item.produce }); setShowForm(true); }}
               onSold={(id) => { markSold(id); notify('Listing marked as sold.', 'success'); }}
               onDelete={(id) => { remove(id); notify('Listing deleted.', 'success'); }}
               onToggle={(id) => { toggleStatus(id); notify('Listing status updated.', 'success'); }}

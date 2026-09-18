@@ -1,7 +1,15 @@
 import { NavLink, Outlet, Link } from 'react-router-dom';
+import { LogOut, LayoutDashboard } from 'lucide-react';
+import { useDispatch } from 'react-redux';
 import Brand from '../components/common/Brand';
+import { logoutSuccess } from '../redux/slices/authSlice';
+import { useAuth } from '../hooks/useAuth';
 
 export default function PublicLayout() {
+  const dispatch = useDispatch();
+  const { user } = useAuth();
+  const dashboardPath = user?.role === 'admin' ? '/admin' : user?.role === 'buyer' ? '/buyer' : '/dashboard';
+
   return (
     <div id="main-content" className="public-shell">
       <header className="site-header">
@@ -14,8 +22,23 @@ export default function PublicLayout() {
             <NavLink to="/admin/login">Admin</NavLink>
           </nav>
           <div className="nav-actions">
-            <Link className="btn btn-outline btn-small" to="/login">Sign in</Link>
-            <Link className="btn btn-primary btn-small" to="/register">Register</Link>
+            {user ? (
+              <>
+                <Link className="btn btn-outline btn-small" to={dashboardPath}>
+                  <LayoutDashboard size={15} aria-hidden="true" />
+                  Dashboard
+                </Link>
+                <button className="btn btn-primary btn-small" type="button" onClick={() => dispatch(logoutSuccess())}>
+                  <LogOut size={15} aria-hidden="true" />
+                  Log out
+                </button>
+              </>
+            ) : (
+              <>
+                <Link className="btn btn-outline btn-small" to="/login">Sign in</Link>
+                <Link className="btn btn-primary btn-small" to="/register">Register</Link>
+              </>
+            )}
           </div>
         </div>
       </header>

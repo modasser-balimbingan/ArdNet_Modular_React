@@ -21,43 +21,48 @@ export function AppProvider({ children }) {
   }, []);
 
   const submitSupportRequest = useCallback((request) => {
-    const next = [{
-      id: Date.now(),
-      createdAt: new Date().toISOString(),
-      status: 'New',
-      ...request,
-    }, ...supportRequests];
-    setSupportRequests(next);
-    setStorage('ardnet.supportRequests', next);
-  }, [supportRequests]);
+    setSupportRequests((current) => {
+      const next = [{
+        id: Date.now(),
+        createdAt: new Date().toISOString(),
+        status: 'New',
+        ...request,
+      }, ...current];
+      setStorage('ardnet.supportRequests', next);
+      return next;
+    });
+  }, []);
 
   const updateSupportRequest = useCallback((id, status) => {
-    const next = supportRequests.map((request) => request.id === id ? { ...request, status } : request);
-    setSupportRequests(next);
-    setStorage('ardnet.supportRequests', next);
-  }, [supportRequests]);
+    setSupportRequests((current) => {
+      const next = current.map((request) => request.id === id ? { ...request, status } : request);
+      setStorage('ardnet.supportRequests', next);
+      return next;
+    });
+  }, []);
 
   const replyToSupportRequest = useCallback((id, reply) => {
-    const next = supportRequests.map((request) => request.id === id
-      ? {
-        ...request,
-        status: 'Replied',
-        replies: [...(request.replies || []), {
-          message: reply,
-          sender: 'ArdNet Administrator',
-          createdAt: new Date().toISOString(),
-        }],
-      }
-      : request);
-    setSupportRequests(next);
-    setStorage('ardnet.supportRequests', next);
-  }, [supportRequests]);
+    setSupportRequests((current) => {
+      const next = current.map((request) => request.id === id
+        ? {
+          ...request,
+          status: 'Replied',
+          replies: [...(request.replies || []), {
+            message: reply,
+            sender: 'ArdNet Administrator',
+            createdAt: new Date().toISOString(),
+          }],
+        }
+        : request);
+      setStorage('ardnet.supportRequests', next);
+      return next;
+    });
+  }, []);
 
   const createPriceAlert = useCallback((alert) => {
     const currentPrice = DEMO_PRICES.find((price) => price.produce === alert.produce && price.location === alert.location);
     const triggered = currentPrice && alert.condition === 'at-or-above' && currentPrice.price >= Number(alert.target);
     const nextAlert = { id: Date.now(), ...alert, status: triggered ? 'Triggered' : 'Active', createdAt: new Date().toISOString() };
-    const nextAlerts = [nextAlert, ...alerts];
     const notification = {
       id: Date.now() + 1,
       title: triggered ? `${alert.produce} price alert triggered` : `${alert.produce} price alert created`,
@@ -65,19 +70,29 @@ export function AppProvider({ children }) {
       status: 'Unread',
       createdAt: new Date().toISOString(),
     };
-    setAlerts(nextAlerts);
-    setNotifications([notification, ...notifications]);
-    setStorage('ardnet.alerts', nextAlerts);
-    setStorage('ardnet.notifications', [notification, ...notifications]);
-  }, [alerts, notifications]);
+
+    setAlerts((current) => {
+      const nextAlerts = [nextAlert, ...current];
+      setStorage('ardnet.alerts', nextAlerts);
+      return nextAlerts;
+    });
+
+    setNotifications((current) => {
+      const nextNotifications = [notification, ...current];
+      setStorage('ardnet.notifications', nextNotifications);
+      return nextNotifications;
+    });
+  }, []);
 
   const markAllNotificationsRead = useCallback(() => {
-    const nextNotifications = notifications.map((notification) => (
-      notification.status === 'Read' ? notification : { ...notification, status: 'Read' }
-    ));
-    setNotifications(nextNotifications);
-    setStorage('ardnet.notifications', nextNotifications);
-  }, [notifications]);
+    setNotifications((current) => {
+      const nextNotifications = current.map((notification) => (
+        notification.status === 'Read' ? notification : { ...notification, status: 'Read' }
+      ));
+      setStorage('ardnet.notifications', nextNotifications);
+      return nextNotifications;
+    });
+  }, []);
 
   const value = useMemo(() => ({
     toast,
