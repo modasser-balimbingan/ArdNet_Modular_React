@@ -1,4 +1,4 @@
-import { NavLink, Outlet, Link } from 'react-router-dom';
+import { NavLink, Outlet, Link, useLocation } from 'react-router-dom';
 import { LogOut, LayoutDashboard } from 'lucide-react';
 import { useDispatch } from 'react-redux';
 import Brand from '../components/common/Brand';
@@ -7,8 +7,10 @@ import { useAuth } from '../hooks/useAuth';
 
 export default function PublicLayout() {
   const dispatch = useDispatch();
+  const { pathname } = useLocation();
   const { user } = useAuth();
   const dashboardPath = user?.role === 'admin' ? '/admin' : user?.role === 'buyer' ? '/buyer' : '/dashboard';
+  const isLandingPage = pathname === '/';
 
   return (
     <div id="main-content" className="public-shell">
@@ -21,7 +23,7 @@ export default function PublicLayout() {
             <NavLink to="/weather">Weather</NavLink>
             <NavLink to="/admin/login">Admin</NavLink>
           </nav>
-          <div className="nav-actions">
+          {isLandingPage && <div className="nav-actions">
             {user ? (
               <>
                 <Link className="btn btn-outline btn-small" to={dashboardPath}>
@@ -39,7 +41,7 @@ export default function PublicLayout() {
                 <Link className="btn btn-primary btn-small" to="/register">Register</Link>
               </>
             )}
-          </div>
+          </div>}
         </div>
       </header>
       <Outlet />
